@@ -1,0 +1,11 @@
+﻿@model SZS.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Zmiana roli";
+}
+
+    @using (Html.BeginForm("ChangeRole", "UsersManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.DropDownListFor(m => m.SelectedRole, Model.RoleSelectList, "", new { @class = "form-control" })
+        <input type="submit" value="Zapisz" />
+    }

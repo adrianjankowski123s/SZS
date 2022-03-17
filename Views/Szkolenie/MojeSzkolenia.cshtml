@@ -1,0 +1,198 @@
+﻿@model IEnumerable<SZS.Szkolenie>
+
+@{
+    ViewBag.Title = "Moje szkolenia";
+}
+
+
+
+<style>
+
+    .bigFont {
+        font-size: large;
+    }
+
+
+</style>
+
+
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik"))
+{
+<div class="dodajSzkolenie">
+    @Html.ActionLink("Dodaj nowe szkolenie", "Create")
+</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NazwaSzkolenia.Nazwa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kategoria)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Miejscowosc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ulica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataOd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataDo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Koszt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdKierownika)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTrenera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Uwagi)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik") || User.IsInRole("Trener") || User.IsInRole("Uczestnik"))
+        {
+
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.NazwaSzkolenia.Nazwa)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Miejscowosc.Nazwa)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ulica)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DataOd)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DataDo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Koszt)
+    </td>
+    @{
+        string str = "" + item.IdKierownika;
+    }
+
+    <td data-kierownik=@str>
+    </td>
+    @{
+        string str2 = "" + item.IdTrenera;
+    }
+
+    <td data-trener=@str2>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Uwagi)
+    </td>
+
+    <td>
+
+        @Html.ActionLink("Terminarz", "Index",
+                           new { Controller = "Terminarz", action = "Index", id = item.Id })<br />
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+        {
+
+            @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })<br />
+
+            @Html.ActionLink("Uczestnicy", "SzkolenieUczestnicyList",
+                            new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = item.Id })<br />
+
+
+
+            if (User.IsInRole("Kierownik"))
+            {
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })<br />
+                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+
+
+
+            }
+        }
+    </td>
+
+
+
+
+</tr>
+        }
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+        getKierownik();
+
+        function getKierownik() {
+            $.ajax({
+                method: 'GET',
+                url: '/Szkolenie/GetKierownik',
+                dataType: 'json',
+                success: function (user) {
+                    var dane = $('[data-kierownik]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-kierownik');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Imie + " " + uczestnik.Nazwisko;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+    <script>
+        getTrener();
+
+        function getTrener() {
+            $.ajax({
+                method: 'GET',
+                url: '/Szkolenie/GetTrener',
+                dataType: 'json',
+                success: function (user) {
+                    var dane = $('[data-trener]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-trener');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Imie + " " + uczestnik.Nazwisko;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+
+
+
+}

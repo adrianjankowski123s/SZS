@@ -1,0 +1,36 @@
+﻿@model SZS.Uczestnik
+
+@{
+    ViewBag.Title = "Usuwanie";
+}
+
+
+<h3>Czy na pewno chcesz usunąć?</h3>
+<div>
+    <h4>Uczestnik</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUsers.Imie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUsers.Nazwisko)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Szkolenie.NazwaSzkolenia.Nazwa)
+        </dt>
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

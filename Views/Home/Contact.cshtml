@@ -1,0 +1,107 @@
+﻿@model SZS.Models.ContactModels
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h4>Dołącz do szkolenia.</h4>
+    <hr />
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(m => m.Topic, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Topic, new { @id = "TopicId", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Topic)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SenderName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.SenderName, new { @id = "SenderName", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SenderName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SenderEmail, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.SenderEmail, new { @id = "SenderEmail", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SenderEmail)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Dodatkowe pytania", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Message)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Zapisz się" />
+            </div>
+        </div>
+    </div>
+}
+
+<address>
+    Białystok<br />
+    ul. Mickiewicza 1<br />
+    <abbr title="Numer telefonu">Tel.</abbr>
+    333 333 333
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:szsszkolenia@gmail.com ">SZSszkolenia@gmail.com</a><br />
+</address>
+
+
+
+
+
+@section scripts{
+    <script>
+    var TopicId = document.getElementById("TopicId");
+
+        TopicId.readOnly = true;
+        var topic = '@ViewBag.IdS' + " " + '@ViewBag.NazwaS';
+        TopicId.value = topic;
+
+    </script>
+    <script>
+        var SenderName = document.getElementById("SenderName");
+        var isAuth = '@User.Identity.IsAuthenticated';
+        console.log(isAuth);
+
+        if (isAuth == "True") {
+            SenderName.readOnly = true;
+            var name = '@ViewBag.SenderName';
+            console.log(name);
+            SenderName.value = name;
+        }
+        else {
+            SenderName.readOnly = false;
+
+        }
+
+    </script>
+
+    <script>
+        var SenderEmail = document.getElementById("SenderEmail");
+        var isAuth = '@User.Identity.IsAuthenticated';
+        console.log(isAuth);
+
+        if (isAuth == "True") {
+            SenderEmail.readOnly = true;
+            var name = '@ViewBag.SenderEmail';
+            SenderEmail.value = name;
+        }
+        else {
+            SenderEmail.readOnly = false;
+
+        }
+
+    </script>
+}

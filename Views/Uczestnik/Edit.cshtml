@@ -1,0 +1,32 @@
+﻿@model SZS.Uczestnik
+
+@{
+    ViewBag.Title = "Edytowanie";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Uczestnik</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+  
+
+        @Html.HiddenFor(model => model.IdUczestnika)
+
+        @Html.HiddenFor(model => model.IdSzkolenia)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Wróć", "Index")
+</div>

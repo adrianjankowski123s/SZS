@@ -1,0 +1,64 @@
+﻿@model IEnumerable<SZS.Terminarz>
+
+@{
+    ViewBag.Title = "Terminarz";
+}
+
+<h2>Terminy spotkań szkolenia: @ViewBag.NazwaSzkole</h2>
+
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Kierownik") || User.IsInRole("Trener")))
+{
+
+    <div class="dodajSzkolenie">
+        @Html.ActionLink("Dodaj nowe spotkanie", "Create",
+new { Controller = "Terminarz", action = "Create", id = ViewBag.IdSzkole })
+ </div>   }
+<p>
+    @Html.ActionLink("Wróć do listy szkoleń", "Index",
+                   new { Controller = "Szkolenie", action = "Index" })
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Temat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiczbaGodzin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TerminOd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TerminDo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Temat.Nazwa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LiczbaGodzin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminOd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminDo)
+            </td>
+
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Kierownik") || User.IsInRole("Trener")))
+            {
+                <td>
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                </td>
+            }
+        </tr>
+    }
+
+</table>

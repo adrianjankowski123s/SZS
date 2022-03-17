@@ -1,0 +1,40 @@
+﻿@model SZS.Uczestnik
+
+@{
+    ViewBag.Title = "Dodawanie";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>Dodaj uczestnika do szkolenia @ViewBag.NazwaSzkolenia</h4> 
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdUczestnika, "IdUczestnika", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("IdUczestnika", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IdUczestnika, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Dodaj" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+
+    @Html.ActionLink("Wróć do listy uczestników", "SzkolenieUczestnicyList",
+                   new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = ViewBag.IdSzkole })
+</div>

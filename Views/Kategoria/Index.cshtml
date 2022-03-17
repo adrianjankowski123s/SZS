@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SZS.Kategoria>
+
+@{
+    ViewBag.Title = "Kategorie";
+}
+
+<div class="dodajSzkolenie">
+    @Html.ActionLink("Dodaj nową", "Create")
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nazwa)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nazwa)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>

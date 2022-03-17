@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SZS.PracownikUmiejetnosc>
+
+@{
+    ViewBag.Title = "Umiejętności trenerów";
+}
+
+<h2>Umiejętności trenera @ViewBag.NazwaUzytkownika</h2>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik"))
+{
+
+    <p>
+        @Html.ActionLink("Dodaj umiejętność", "Create",
+                        new { Controller = "PracownikUmiejetnosc", action = "Create", id = ViewBag.IdUzytkownik })
+    </p>
+}
+    <p>
+        @Html.ActionLink("Wróć do listy uzytkowników", "Index",
+                       new { Controller = "UsersManager", action = "Index" })
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Umiejetnosci)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Umiejetnosci.Nazwa)
+        </td>
+
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik"))
+        {
+
+            <td>
+                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+            </td>
+        }
+        </tr>
+        }
+
+    </table>
+
+

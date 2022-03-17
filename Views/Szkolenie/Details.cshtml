@@ -1,0 +1,139 @@
+﻿@model SZS.Szkolenie
+
+@{
+    ViewBag.Title = "Szczegóły";
+}
+
+
+<div>
+    <h4>Szkolenie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+     
+        <dt>
+            @Html.DisplayNameFor(model => model.NazwaSzkolenia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NazwaSzkolenia.Nazwa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategoria.Nazwa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Miejscowosc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Miejscowosc.Nazwa)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LiczbaGodzin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LiczbaGodzin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataOd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataOd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataDo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataDo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KodPocztowy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KodPocztowy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ulica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ulica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Koszt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Koszt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CzyWydanoZaswiadczenie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CzyWydanoZaswiadczenie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CzyZrealizowano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CzyZrealizowano)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KodSzkolenia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KodSzkolenia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CzyOtwarte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CzyOtwarte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CzyWidoczne)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CzyWidoczne)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Uwagi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uwagi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Wróć", "Index")
+</p>

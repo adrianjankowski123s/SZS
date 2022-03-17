@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - moja aplikacja platformy ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("SzkoleniaSZS", "Index", "Szkolenie", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Strona główna", "Index", "Szkolenie")</li>
+
+
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik") || User.IsInRole("Trener") || User.IsInRole("Uczestnik"))
+                    {
+                        <li>@Html.ActionLink("Moje szkolenia", "MojeSzkolenia", "Szkolenie")</li>
+
+                    }
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik") || User.IsInRole("Trener"))
+                    {
+
+                        <li>@Html.ActionLink("Zarządzaj użytkownikami", "Index", "UsersManager")</li>
+
+                        <li>@Html.ActionLink("Tematy", "Index", "Temat")</li>
+
+                    }
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik"))
+                    {
+
+                        <li class="dropdown">
+                            <a href="@Url.Action("Index", "Szkolenie")" class="dropdown-toggle" data-toggle="dropdown">Słownik<span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Nazwy szkoleń", "Index", "NazwaSzkolenia")</li>
+                                <li>@Html.ActionLink("Miejscowości", "Index", "Miejscowosc")</li>
+                                <li>@Html.ActionLink("Województwa", "Index", "Wojewodztwo")</li>
+                                <li>@Html.ActionLink("Wykształcenia", "Index", "Wyksztalcenie")</li>
+                                <li>@Html.ActionLink("Umiejętności", "Index", "Umiejetnosci")</li>
+                                <li>@Html.ActionLink("Kategorie", "Index", "Kategoria")</li>
+                                <li>@Html.ActionLink("Finansowanie", "Index", "Finansowanie")</li>
+                                <li>@Html.ActionLink("Role", "Index", "Role")</li>
+                            </ul>
+                        </li>
+
+                    }
+
+                        <li>@Html.ActionLink("Kontakt", "Kontakt", "Home")</li>
+
+
+
+                    </ul>
+                        @Html.Partial("_LoginPartial")
+</div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Moja aplikacja ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

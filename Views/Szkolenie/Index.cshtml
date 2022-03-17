@@ -1,0 +1,590 @@
+﻿@model IEnumerable<SZS.Szkolenie>
+
+@{
+    ViewBag.Title = "Szkolenia";
+}
+
+
+
+<style>
+
+    .bigFont {
+        font-size: large;
+    }
+
+
+
+
+</style>
+
+
+
+<div class="szukaj">
+    @using (Html.BeginForm())
+    {
+        <div>
+            Szukaj szkolenia: @Html.TextBox("SearchString")
+            <input type="submit" value="Szukaj" />
+        </div>
+    }
+</div>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik"))
+{
+    <div class="dodajSzkolenie">
+        @Html.ActionLink("Dodaj nowe szkolenie", "Create")
+    </div>
+}
+
+<div class="lab">
+    @Html.Label("Szkolenia otwarte do rejestracji:", new { @class = "bigFont" })
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Nazwa Szkolenia", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.NameSortParm1 })
+        </th>
+
+        <th>
+            @Html.ActionLink("Miejscowość", "Index", new { sortOrder = ViewBag.NameSortParm2 })
+        </th>
+        <th>
+            @Html.ActionLink("Ulica", "Index", new { sortOrder = ViewBag.NameSortParm3 })
+        </th>
+        <th>
+            @Html.ActionLink("Rozpoczęcie", "Index", new { sortOrder = ViewBag.DateSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Zakończenie", "Index", new { sortOrder = ViewBag.DateSortParm1 })
+        </th>
+        <th>
+            @Html.ActionLink("Koszt", "Index", new { sortOrder = ViewBag.NameSortParm4 })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdKierownika)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTrenera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Uwagi)
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        if (item.CzyOtwarte == true && item.CzyWidoczne == true)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NazwaSzkolenia.Nazwa)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Miejscowosc.Nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ulica)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataOd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Koszt)
+                </td>
+                @{
+                    string str = "" + item.IdKierownika;
+                }
+
+                <td data-kierownik=@str>
+                </td>
+                @{
+                    string str2 = "" + item.IdTrenera;
+                }
+
+                <td data-trener=@str2>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uwagi)
+                </td>
+
+
+
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+                {
+                    <td>
+
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })<br />
+
+                        @Html.ActionLink("Uczestnicy", "SzkolenieUczestnicyList",
+                                        new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = item.Id })<br />
+
+                        @Html.ActionLink("Terminarz", "Index",
+                                        new { Controller = "Terminarz", action = "Index", id = item.Id })<br />
+
+
+
+                        @if (User.IsInRole("Kierownik"))
+                        {
+                            @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })<br />
+                            @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+
+
+
+                        }
+                    </td>
+                }
+
+
+                @if (!User.IsInRole("Kierownik") && !User.IsInRole("Trener"))
+                {
+                    <td>
+                        @Html.ActionLink("Zapisz się do szkolenia", "Contact",
+                        new { Controller = "Home", action = "Contact", id = item.Id })
+                    </td>
+                }
+
+            </tr>
+        }
+    }
+
+</table>
+
+
+
+
+
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Kierownik") || User.IsInRole("Trener"))
+{
+
+
+    @Html.Label("Szkolenia w trakcie realizacji:", new { @class = "bigFont" })
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Nazwa Szkolenia", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.NameSortParm1 })
+            </th>
+
+            <th>
+                @Html.ActionLink("Miejscowość", "Index", new { sortOrder = ViewBag.NameSortParm2 })
+            </th>
+            <th>
+                @Html.ActionLink("Ulica", "Index", new { sortOrder = ViewBag.NameSortParm3 })
+            </th>
+            <th>
+                @Html.ActionLink("Rozpoczęcie", "Index", new { sortOrder = ViewBag.DateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Zakończenie", "Index", new { sortOrder = ViewBag.DateSortParm1 })
+            </th>
+            <th>
+                @Html.ActionLink("Koszt", "Index", new { sortOrder = ViewBag.NameSortParm4 })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKierownika)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTrenera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uwagi)
+            </th>
+            <th></th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            if (item.CzyOtwarte != true && item.CzyWidoczne == true && item.CzyZrealizowano == false)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NazwaSzkolenia.Nazwa)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Miejscowosc.Nazwa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ulica)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataOd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataDo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Koszt)
+                    </td>
+                    @{
+                        string str = "" + item.IdKierownika;
+                    }
+
+                    <td data-kierownik=@str>
+                    </td>
+                    @{
+                        string str2 = "" + item.IdTrenera;
+                    }
+
+                    <td data-trener=@str2>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uwagi)
+                    </td>
+
+
+
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+                    {
+                        <td>
+
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })<br />
+
+                            @Html.ActionLink("Uczestnicy", "SzkolenieUczestnicyList",
+                                            new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = item.Id })<br />
+
+                            @Html.ActionLink("Terminarz", "Index",
+                                            new { Controller = "Terminarz", action = "Index", id = item.Id })<br />
+
+
+
+                            @if (User.IsInRole("Kierownik"))
+                            {
+                                @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })<br />
+                                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+
+
+
+                            }
+                        </td>
+                    }
+
+                </tr>
+            }
+        }
+
+    </table>
+
+
+
+    @Html.Label("Szkolenia zrealizowane:", new { @class = "bigFont" })
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Nazwa Szkolenia", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.NameSortParm1 })
+            </th>
+
+            <th>
+                @Html.ActionLink("Miejscowość", "Index", new { sortOrder = ViewBag.NameSortParm2 })
+            </th>
+            <th>
+                @Html.ActionLink("Ulica", "Index", new { sortOrder = ViewBag.NameSortParm3 })
+            </th>
+            <th>
+                @Html.ActionLink("Rozpoczęcie", "Index", new { sortOrder = ViewBag.DateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Zakończenie", "Index", new { sortOrder = ViewBag.DateSortParm1 })
+            </th>
+            <th>
+                @Html.ActionLink("Koszt", "Index", new { sortOrder = ViewBag.NameSortParm4 })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKierownika)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTrenera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uwagi)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.CzyZrealizowano == true && item.CzyWidoczne == true)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NazwaSzkolenia.Nazwa)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Miejscowosc.Nazwa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ulica)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataOd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataDo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Koszt)
+                    </td>
+                    @{
+                        string str = "" + item.IdKierownika;
+                    }
+
+                    <td data-kierownik=@str>
+                    </td>
+                    @{
+                        string str2 = "" + item.IdTrenera;
+                    }
+
+                    <td data-trener=@str2>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uwagi)
+                    </td>
+
+
+
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+                    {
+                        <td>
+
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })<br />
+
+                            @Html.ActionLink("Uczestnicy", "SzkolenieUczestnicyList",
+                                            new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = item.Id })<br />
+
+                            @Html.ActionLink("Terminarz", "Index",
+                                            new { Controller = "Terminarz", action = "Index", id = item.Id })<br />
+
+
+
+                            @if (User.IsInRole("Kierownik"))
+                            {
+                                @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })<br />
+                                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+
+
+
+                            }
+                        </td>
+                    }
+
+                </tr>
+            }
+        }
+
+    </table>
+
+
+
+    if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+    {
+        @Html.Label("Szkolenia niewidoczne dla uczestników:", new { @class = "bigFont" })
+        <br />
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.ActionLink("Nazwa Szkolenia", "Index", new { sortOrder = ViewBag.NameSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.NameSortParm1 })
+                </th>
+
+                <th>
+                    @Html.ActionLink("Miejscowość", "Index", new { sortOrder = ViewBag.NameSortParm2 })
+                </th>
+                <th>
+                    @Html.ActionLink("Ulica", "Index", new { sortOrder = ViewBag.NameSortParm3 })
+                </th>
+                <th>
+                    @Html.ActionLink("Rozpoczęcie", "Index", new { sortOrder = ViewBag.DateSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Zakończenie", "Index", new { sortOrder = ViewBag.DateSortParm1 })
+                </th>
+                <th>
+                    @Html.ActionLink("Koszt", "Index", new { sortOrder = ViewBag.NameSortParm4 })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdKierownika)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdTrenera)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Uwagi)
+                </th>
+                <th></th>
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                if (item.CzyWidoczne != true)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NazwaSzkolenia.Nazwa)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Miejscowosc.Nazwa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ulica)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataOd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataDo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Koszt)
+                        </td>
+                        @{
+                            string str = "" + item.IdKierownika;
+                        }
+
+                        <td data-kierownik=@str>
+                        </td>
+                        @{
+                            string str2 = "" + item.IdTrenera;
+                        }
+
+                        <td data-trener=@str2>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Uwagi)
+                        </td>
+
+
+
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Trener") || User.IsInRole("Kierownik"))
+                        {
+                            <td>
+
+                                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })<br />
+
+                                @Html.ActionLink("Uczestnicy", "SzkolenieUczestnicyList",
+                                                new { Controller = "Uczestnik", action = "SzkolenieUczestnicyList", id = item.Id })<br />
+
+                                @Html.ActionLink("Terminarz", "Index",
+                                                new { Controller = "Terminarz", action = "Index", id = item.Id })<br />
+
+
+
+                                @if (User.IsInRole("Kierownik"))
+                                {
+                                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id })<br />
+                                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+
+
+
+                                }
+                            </td>
+                        }
+
+                    </tr>
+                }
+            }
+
+        </table>
+
+
+    }
+}
+
+@section scripts{
+    <script>
+        getKierownik();
+
+        function getKierownik() {
+            $.ajax({
+                method: 'GET',
+                url: '/Szkolenie/GetKierownik',
+                dataType: 'json',
+                success: function (user) {
+                    var dane = $('[data-kierownik]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-kierownik');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Imie + " " + uczestnik.Nazwisko;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+    <script>
+        getTrener();
+
+        function getTrener() {
+            $.ajax({
+                method: 'GET',
+                url: '/Szkolenie/GetTrener',
+                dataType: 'json',
+                success: function (user) {
+                    var dane = $('[data-trener]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-trener');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Imie + " " + uczestnik.Nazwisko;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+
+
+
+}

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Uczestnik>
+
+@{
+    ViewBag.Title = "Uczestnicy";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUsers.Imie)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUsers.Nazwisko)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Szkolenie.NazwaSzkolenia.Nazwa)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    @{
+        string str = "" + item.IdUczestnika;
+    }
+
+    <td data-imie=@str>
+    </td>
+
+    @{
+        string str2 = "" + item.IdUczestnika;
+    }
+
+    <td data-nazwisko=@str2>
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Szkolenie.NazwaSzkolenia.Nazwa)
+    </td>
+    <td>
+        @Html.ActionLink("Edytuj", "Edit", new { id=item.Id }) |
+        @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+    </td>
+</tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+        getImieUczestnika();
+
+        function getImieUczestnika() {
+            $.ajax({
+                method: 'GET',
+                url: '/Uczestnik/GetUsers',
+                dataType: 'json',
+                success: function (user) {
+                    var dane = $('[data-imie]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-imie');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Imie;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+    <script>
+        getNazwiskoUczestnika();
+
+        function getNazwiskoUczestnika() {
+            $.ajax({
+                method: 'GET',
+                url: '/Uczestnik/GetUsers',
+                dataType: 'json',
+                success: function (user) {
+
+                    var dane = $('[data-nazwisko]');
+                    for (var i = 0; i < dane.length; i++) {
+
+                        var _idImie = dane[i].getAttribute('data-nazwisko');
+
+                        if (_idImie) {
+                            var uczestnik = user.find(x => x.Id == _idImie);
+                            dane[i].textContent = uczestnik.Nazwisko;
+
+                        }
+                    }
+                }
+
+            })
+        }
+    </script>
+
+
+
+
+}
+

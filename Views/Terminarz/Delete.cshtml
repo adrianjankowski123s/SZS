@@ -1,0 +1,63 @@
+﻿@model SZS.Terminarz
+
+@{
+    ViewBag.Title = "Usuwanie";
+}
+
+
+<h3>Czy na pewno chcesz usunąć?</h3>
+<div>
+    <h4>Terminarz</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Szkolenie.KodPocztowy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Szkolenie.KodPocztowy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temat.Nazwa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temat.Nazwa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LiczbaGodzin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LiczbaGodzin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TerminOd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TerminOd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TerminDo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TerminDo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuwanie" class="btn btn-default" /> |
+            @Html.ActionLink("Wróć", "Index")
+        </div>
+    }
+</div>

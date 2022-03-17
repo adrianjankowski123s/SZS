@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SZS.Miejscowosc>
+
+@{
+    ViewBag.Title = "Miejscowości";
+}
+
+<div class="dodajSzkolenie">
+    @Html.ActionLink("Dodaj", "Create")
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Województwo")
+            </th>
+            <th>
+                @Html.Label("Miejscowość")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wojewodztwo.Nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nazwa)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>

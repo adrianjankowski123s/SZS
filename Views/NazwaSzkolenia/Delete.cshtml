@@ -1,0 +1,47 @@
+﻿@model SZS.NazwaSzkolenia
+
+@{
+    ViewBag.Title = "Usuwanie";
+}
+
+
+<h3>Czy na pewno chcesz usunąć?</h3>
+<div>
+    <h4>Nazwa Szkolenia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategoria.Nazwa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nazwa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nazwa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpisSzkolenia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpisSzkolenia)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-default" /> |
+            @Html.ActionLink("Wróć", "Index")
+        </div>
+    }
+</div>

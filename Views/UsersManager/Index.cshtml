@@ -1,0 +1,196 @@
+﻿@model SZS.Models.UserViewModel
+@{
+    ViewBag.Title = "Użytkownicy";
+}
+
+<style>
+    .bigFont {
+        font-size: large;
+    }
+
+</style>
+
+
+
+
+
+<div class="dodajSzkolenie">
+    @Html.ActionLink("Dodaj użytkownika", "AddUser", "Account", routeValues: null, htmlAttributes: new { id = "addUserLink" })
+</div>
+
+@if (Model.noRolesUsers.Count != 0)
+{
+    <div class="lab">
+         @Html.Label("Użytkownicy bez roli:", new { @class = "bigFont" })
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Uzytkownik")
+            </th>
+            <th>
+                @Html.Label("Email")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var user in Model.noRolesUsers)
+        {
+            <tr>
+                <td>
+                    @user.Imie @user.Nazwisko
+                </td>
+
+                <td>
+                    @user.Email
+                </td>
+
+                <td>
+                    @Html.ActionLink("Zmień rolę", "ChangeRole", new { Username = user.Email }, null) |
+                    @Html.ActionLink("Edytuj", "EditUser", new { email = user.Email }) |
+                    @Html.ActionLink("Usuń", "DeleteUser", new { email = user.Email })
+                </td>
+
+            </tr>
+        }
+
+
+    </table>
+}
+
+
+
+
+
+
+
+@if (Model.Kierownicy.Count != 0)
+{
+    @Html.Label("Kierownicy:", new { @class = "bigFont" })
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Uzytkownik")
+            </th>
+            <th>
+                @Html.Label("Email")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var user in Model.Kierownicy)
+        {
+            <tr>
+                <td>
+                    @user.Imie @user.Nazwisko
+                </td>
+
+                <td>
+                    @user.Email
+                </td>
+
+                <td>
+                    @Html.ActionLink("Zmień rolę", "ChangeRole", new { Username = user.Email }, null) |
+                    @Html.ActionLink("Edytuj", "EditUser", new { email = user.Email }) |
+                    @Html.ActionLink("Usuń", "DeleteUser", new { email = user.Email })
+                </td>
+
+            </tr>
+        }
+
+
+    </table>
+}
+
+@if (Model.Trenerzy.Count != 0)
+{
+    @Html.Label("Trenerzy:", new { @class = "bigFont" })
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Uzytkownik")
+            </th>
+            <th>
+                @Html.Label("Email")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var user in Model.Trenerzy)
+        {
+            <tr>
+                <td>
+                    @user.Imie @user.Nazwisko
+                </td>
+
+                <td>
+                    @user.Email
+                </td>
+
+                <td>
+                    @Html.ActionLink("Zmień rolę", "ChangeRole", new { Username = user.Email }, null) |
+                    @Html.ActionLink("Umiejętności", "Index",
+                   new { Controller = "PracownikUmiejetnosc", action = "Index", email = user.Email }) |
+                    @Html.ActionLink("Edytuj", "EditUser", new { email = user.Email }) |
+                    @Html.ActionLink("Usuń", "DeleteUser", new { email = user.Email })
+                </td>
+
+            </tr>
+        }
+
+
+    </table>
+}
+@if (Model.Uczestnicy.Count != 0)
+{
+    @Html.Label("Uczestnicy:", new { @class = "bigFont" })
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Uzytkownik")
+            </th>
+            <th>
+                @Html.Label("Email")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var user in Model.Uczestnicy)
+        {
+            <tr>
+                <td>
+                    @user.Imie @user.Nazwisko
+                </td>
+
+                <td>
+                    @user.Email
+                </td>
+
+                <td>
+                    @Html.ActionLink("Zmień rolę", "ChangeRole", new { Username = user.Email }, null) |
+                    @Html.ActionLink("Edytuj", "EditUser", new { email = user.Email }) |
+                    @Html.ActionLink("Usuń", "DeleteUser", new { email = user.Email })
+                </td>
+
+            </tr>
+        }
+
+
+    </table>
+}
+
+
